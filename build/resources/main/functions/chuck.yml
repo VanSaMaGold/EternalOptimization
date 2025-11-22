@@ -1,0 +1,49 @@
+optimization-strategies:
+  strategyA:
+    enabled: true
+    max-loaded-chunks: 500
+    unload-delay-ticks: 600
+
+  strategyB:
+    enabled: true
+    load-threshold: 300
+    chunks-per-tick: 350
+
+  strategyC:
+    enabled: true
+    async-loading: true
+    preload-radius: 2
+
+  strategyD:
+    enabled: true
+
+world-specific:
+  world:
+    max-loaded-chunks: 500
+    base-unload-delay: 600
+    player-unload-delay: 1200
+    high-entity-threshold: 50
+    high-entity-unload-delay: 1800
+    low-entity-threshold: 10
+    low-entity-unload-delay: 300
+    priority-radius: 3
+
+  world_nether:
+    max-loaded-chunks: 300
+    base-unload-delay: 400
+    player-unload-delay: 800
+    high-entity-threshold: 30
+    high-entity-unload-delay: 1200
+    low-entity-threshold: 5
+    low-entity-unload-delay: 200
+    priority-radius: 2
+
+  world_the_end:
+    max-loaded-chunks: 200
+    base-unload-delay: 300
+    player-unload-delay: 600
+    high-entity-threshold: 20
+    high-entity-unload-delay: 900
+    low-entity-threshold: 3
+    low-entity-unload-delay: 150
+    priority-radius: 2

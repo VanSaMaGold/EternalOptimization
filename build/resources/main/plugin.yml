@@ -1,3 +1,7 @@
 name: EternalOptimization
-version: '0.0.1'
+version: '0.0.2'
 main: eternalpolar.spigot.eternaloptimization.EternalOptimization
+commands:
+  eternaloptimization:
+    aliases: [eo]
+    description: The command of Eternal Optimization

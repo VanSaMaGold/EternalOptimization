@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'eternalpolar.spigot'
-version = '0.0.1'
+version = '0.0.2'
 
 repositories {
     mavenCentral()
@@ -18,11 +18,9 @@ repositories {
     maven {
         url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
     }
-    // 添加BungeeCord仓库
     maven {
         url "https://oss.sonatype.org/content/repositories/snapshots/"
     }
-    // 添加CodeMC仓库（有时需要）
     maven {
         url "https://repo.codemc.io/repository/maven-snapshots/"
     }
@@ -33,9 +31,11 @@ repositories {
 
 dependencies {
     compileOnly "org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT"
+    compileOnly "io.netty:netty-all:4.1.9.Final"
+    compileOnly files('libs/ProtocolLib.jar')
 }
 
-def targetJavaVersion = 8
+def targetJavaVersion = 17
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion
@@ -61,3 +61,6 @@ processResources {
         expand props
     }
 }
+
+
+

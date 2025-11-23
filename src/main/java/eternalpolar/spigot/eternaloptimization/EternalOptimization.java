@@ -1,8 +1,12 @@
 package eternalpolar.spigot.eternaloptimization;
 
-import eternalpolar.spigot.eternaloptimization.Module.Chuck.ChunkManager;
-import eternalpolar.spigot.eternaloptimization.Utils.MemoryMonitor;
+import eternalpolar.spigot.eternaloptimization.Commands.CMD;
+import eternalpolar.spigot.eternaloptimization.Commands.EOCommandCompleter;
+import eternalpolar.spigot.eternaloptimization.Module.Load.ChuckLoadOptimizated;
+import eternalpolar.spigot.eternaloptimization.Module.Load.ChuckPreloadOptimizated;
+import eternalpolar.spigot.eternaloptimization.Module.Other.PacketsReceiveOptimizated;
 import eternalpolar.spigot.eternaloptimization.Utils.Metrics;
+import eternalpolar.spigot.eternaloptimization.Utils.PerformanceMonitor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,40 +14,68 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class EternalOptimization extends JavaPlugin {
 
     private static EternalOptimization instance;
-    private ChunkManager chunkManager;
-    private MemoryMonitor memoryMonitor;
+    private ChuckLoadOptimizated chuckOptimizer;
+    private ChuckPreloadOptimizated chuckPreloadOptimizer;
+    private PacketsReceiveOptimizated packetOptimizer;
+    private PerformanceMonitor performanceMonitor;
+    private CMD commandHandler;
 
     @Override
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
 
-        this.memoryMonitor = new MemoryMonitor(this);
-        this.chunkManager = new ChunkManager(this, memoryMonitor);
+        this.performanceMonitor = new PerformanceMonitor(this);
+        this.chuckOptimizer = new ChuckLoadOptimizated(this);
+        this.chuckPreloadOptimizer = new ChuckPreloadOptimizated(this);
+        this.packetOptimizer = new PacketsReceiveOptimizated(this);
+        this.commandHandler = new CMD(this);
 
-        memoryMonitor.startMemoryMonitoring();
+        registerCommands();
+        performanceMonitor.startMonitoring();
         displayStartupMessage();
     }
 
     @Override
     public void onDisable() {
-        if (chunkManager != null) {
-            chunkManager.disable();
+        if (chuckOptimizer != null) {
+            chuckOptimizer.disable();
         }
-        if (memoryMonitor != null) {
-            memoryMonitor.stopMemoryMonitoring();
+        if (chuckPreloadOptimizer != null) {
+            chuckPreloadOptimizer.disable();
+        }
+        if (packetOptimizer != null) {
+            packetOptimizer.disable();
+        }
+        if (performanceMonitor != null) {
+            performanceMonitor.stopMonitoring();
         }
 
         getLogger().info("EternalOptimization disabled.");
         instance = null;
     }
 
-    public ChunkManager getChunkManager() {
-        return chunkManager;
+    private void registerCommands() {
+        if (getCommand("eternaloptimization") != null) {
+            getCommand("eternaloptimization").setExecutor(commandHandler);
+            getCommand("eternaloptimization").setTabCompleter(new EOCommandCompleter());
+        }
     }
 
-    public MemoryMonitor getMemoryMonitor() {
-        return memoryMonitor;
+    public ChuckLoadOptimizated getChuckOptimizer() {
+        return chuckOptimizer;
+    }
+
+    public ChuckPreloadOptimizated getChuckPreloadOptimizer() {
+        return chuckPreloadOptimizer;
+    }
+
+    public PacketsReceiveOptimizated getPacketOptimizer() {
+        return packetOptimizer;
+    }
+
+    public PerformanceMonitor getPerformanceMonitor() {
+        return performanceMonitor;
     }
 
     private void displayStartupMessage() {
@@ -53,16 +85,7 @@ public class EternalOptimization extends JavaPlugin {
         sendColoredMessage("| &fAuthor &bEternal &3Polar");
         sendColoredMessage("| &fRunning on " + getServer().getName() + " " + getServer().getVersion());
         getLogger().info("");
-        getLogger().info("");
-        sendColoredMessage("| &fQQ &b2047752264 | &aWeChat &bdll764");
-        getLogger().info("");
-        getLogger().info("");
         initializeMetrics();
-    }
-
-    private void initializeMetrics() {
-        int pluginId = 28087; // Replace with your plugin's bStats ID
-        new Metrics(this, pluginId);
     }
 
     private void sendColoredMessage(String message) {
@@ -70,6 +93,11 @@ public class EternalOptimization extends JavaPlugin {
                 ChatColor.translateAlternateColorCodes('&',
                         "&7[&3Eternal&bOptimization&7] &r" + message)
         );
+    }
+
+    private void initializeMetrics() {
+        int pluginId = 28087;
+        new Metrics(this, pluginId);
     }
 
     public static EternalOptimization getInstance() {

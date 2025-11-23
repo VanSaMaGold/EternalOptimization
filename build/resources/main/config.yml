@@ -2,5 +2,10 @@ debug: false
 debug-interval: 300
 
 memory-check-interval: 5
-enable-memory-logging: true
-memory-log-format: "[EternalOptimization] Memory: %.2f/%.2f MB (%.1f%%) | Saved: %.2f MB"
+enable-memory-logging: false
+memory-log-format: "[EternalOptimization] Memory Monitor: Used=%.2f/%.2f MB (%.1f%%)"
+
+performance-tracking:
+  enabled: true
+  warmup-period: 60
+  sample-size: 20

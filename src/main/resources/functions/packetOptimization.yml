@@ -1,0 +1,19 @@
+enabled: true
+
+entity-move-threshold: 5
+
+block-change-threshold: 10
+
+chat-message-threshold: 3
+
+animation-threshold: 8
+
+arm-swing-threshold: 6
+
+held-item-change-threshold: 4
+
+player-action-threshold: 7
+
+packet-limit: 100
+
+packet-reset-interval: 5

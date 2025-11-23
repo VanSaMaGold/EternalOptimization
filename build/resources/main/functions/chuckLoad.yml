@@ -1,0 +1,34 @@
+enabled: true
+
+# Global settings for all worlds (applied to undefined worlds)
+global-world:
+  enabled: true
+
+  # Maximum number of loaded chunks per world
+  max-loaded-chunks: 500
+
+  # Radius around players where chunks won't be unloaded (in chunks)
+  player-unload-radius: 3
+
+  # Base time (in ticks) a chunk must be unused before unloading
+  # 20 ticks = 1 second
+  base-unload-delay: 600
+
+world-specific:
+  world:
+    enabled: true
+    max-loaded-chunks: 500
+    player-unload-radius: 3
+    base-unload-delay: 600
+
+  world_nether:
+    enabled: true
+    max-loaded-chunks: 300
+    player-unload-radius: 4
+    base-unload-delay: 400
+
+  world_the_end:
+    enabled: true
+    max-loaded-chunks: 200
+    player-unload-radius: 2
+    base-unload-delay: 300

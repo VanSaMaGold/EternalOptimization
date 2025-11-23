@@ -1,0 +1,26 @@
+enabled: true
+load-async: true
+cleanup-interval-seconds: 30
+
+global-world:
+  enabled: true
+  preload-radius: 2
+  preload-delay-ticks: 10
+  max-preloaded-chunks: 200
+
+world-specific:
+  world:
+    enabled: true
+    preload-radius: 3
+    preload-delay-ticks: 8
+    max-preloaded-chunks: 250
+  world_nether:
+    enabled: true
+    preload-radius: 1
+    preload-delay-ticks: 15
+    max-preloaded-chunks: 150
+  world_the_end:
+    enabled: true
+    preload-radius: 1
+    preload-delay-ticks: 15
+    max-preloaded-chunks: 150
